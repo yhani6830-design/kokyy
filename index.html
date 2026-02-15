@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For koky ❤️</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
 *{
   margin:0;
@@ -27,37 +25,40 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  position:relative;
-  overflow:hidden;
   text-align:center;
+  padding:20px;
 }
 
 h1{
-  font-size:42px;
+  font-size:7vw;
   color:#fff;
   text-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
 
 .buttons{
-  margin-top:40px;
-  position:relative;
+  margin-top:5vh;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:center;
+  gap:15px;
 }
 
 button{
-  padding:15px 40px;
-  font-size:18px;
+  padding:12px 30px;
+  font-size:4vw;
   border:none;
   border-radius:40px;
   cursor:pointer;
   position:relative;
   transition:0.3s ease;
   box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  min-width:120px;
 }
 
 #yes{
   background:#ff4e8d;
   color:white;
-  margin-right:20px;
 }
 
 #yes:hover{
@@ -73,7 +74,7 @@ button{
 /* قلوب */
 .heart{
   position:absolute;
-  font-size:20px;
+  font-size:5vw;
   animation:float 6s linear infinite;
   opacity:0.8;
 }
@@ -93,22 +94,22 @@ button{
   justify-content:center;
   align-items:center;
   text-align:center;
-  position:relative;
-  overflow:hidden;
+  padding:20px;
 }
 
 #page2 h1{
-  font-size:40px;
+  font-size:8vw;
 }
 
 #page2 h2{
   margin-top:15px;
-  font-size:28px;
+  font-size:6vw;
   color:#ff9bd2;
 }
 
 img{
-  width:320px;
+  width:80vw;
+  max-width:320px;
   margin-top:30px;
   border-radius:20px;
   box-shadow:0 10px 30px rgba(0,0,0,0.4);
@@ -129,13 +130,11 @@ img{
 }
 </style>
 </head>
-
 <body>
 
 <!-- الصفحة الأولى -->
 <div id="page1">
   <h1>koky will you be my Valentine? 💖</h1>
-
   <div class="buttons">
     <button id="yes">Yes 💘</button>
     <button id="no">No 🙄</button>
@@ -155,18 +154,20 @@ const yesBtn = document.getElementById("yes");
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 
-/* زرار No يهرب لما الماوس يقرب */
-document.addEventListener("mousemove", (e) => {
-
+// للماوس و touch على الموبايل
+function moveNoButton(e){
   const rect = noBtn.getBoundingClientRect();
+  let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+  if(!clientX || !clientY) return;
 
   const distance = Math.hypot(
-    e.clientX - (rect.left + rect.width / 2),
-    e.clientY - (rect.top + rect.height / 2)
+    clientX - (rect.left + rect.width / 2),
+    clientY - (rect.top + rect.height / 2)
   );
 
-  if (distance < 120) {
-
+  if(distance < 100){
     const maxX = window.innerWidth - rect.width;
     const maxY = window.innerHeight - rect.height;
 
@@ -177,29 +178,32 @@ document.addEventListener("mousemove", (e) => {
     noBtn.style.left = randomX + "px";
     noBtn.style.top = randomY + "px";
   }
-});
+}
 
-/* عند الضغط Yes */
+document.addEventListener("mousemove", moveNoButton);
+document.addEventListener("touchmove", moveNoButton);
+
+// عند الضغط Yes
 yesBtn.addEventListener("click",()=>{
   page1.style.display="none";
   page2.style.display="flex";
   startFireworks();
 });
 
-/* قلوب طايرة */
+// قلوب طايرة
 function createHeart(){
   const heart=document.createElement("div");
   heart.classList.add("heart");
   heart.innerHTML="💖";
   heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(Math.random()*20+15)+"px";
+  heart.style.fontSize=(Math.random()*3+3)+"vw";
   heart.style.animationDuration=(Math.random()*3+3)+"s";
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),6000);
 }
-setInterval(createHeart,500);
+setInterval(createHeart,700);
 
-/* ألعاب نارية */
+// ألعاب نارية
 function startFireworks(){
   setInterval(()=>{
     const fw=document.createElement("div");
@@ -209,9 +213,8 @@ function startFireworks(){
     fw.style.background="hsl("+Math.random()*360+",100%,50%)";
     document.body.appendChild(fw);
     setTimeout(()=>fw.remove(),1000);
-  },300);
+  },400);
 }
 </script>
-
 </body>
 </html>
